@@ -1,1 +1,86 @@
+#==================================================================
+# Program:      Student Enrollment
+#               
+# Abstract:     This program calculates the tuition amount due for enrolled
+#               students based upon the type of residency (R or r = resident
+#               and N or n = nonresident) and the number  
+#               of credits for which the students are enrolled.
+#==================================================================
+
+RESIDENT_RATE = 81
+NON_RESIDENT_RATE = 162
+
+def main():
+
+    # initialize counters and total tuition
+    resident_counter = 0
+    non_resident_counter = 0
+    total_tuition_amount = 0
+
+    print("Student Name \tType\tCredits\tAmount Due")
+    print
+
+    try:
+        # open the data file
+        infile = open('enroll.txt', 'r')
+
+        # read the first value from the file
+        student_name = infile.readline()
+
+        # continue reading from file until the end
+        while student_name != '':
+
+            # strip the new line character and print the student's name
+            student_name = student_name.rstrip('\n')
+            print(student_name, end='\t')
+
+            # read the code type, strip the new line, and print it
+            code_type = infile.readline()
+            code_type = code_type.rstrip('\n')
+            print(code_type, end='\t')
+
+            # read the number of credits, strip the new line, and print it
+            credits = infile.readline()
+            credits = int(credits)
+            print(format(credits, '3.0f'), end='\t')
+
+            # check the code type and compute the tuition amount due 
+            # increment the appropriate counter
+            if code_type == "R" or code_type == "r":
+                amount_due = credits * RESIDENT_RATE
+                resident_counter += 1
+            elif code_type == "N" or code_type == "n":
+                amount_due = credits * NON_RESIDENT_RATE
+                non_resident_counter += 1
+            else:
+                amount_due = 0
+
+            # accumulate the total tuition amount
+            total_tuition_amount += amount_due
+
+            # print the appropriate detail line
+            if amount_due == 0:
+                print('invalid code')
+            else:
+                print('$', format(amount_due, '8,.2f'))
+
+            # get the next student's name
+            student_name = infile.readline()
+
+        # close the input file
+        infile.close()
+
+        # print the counters and payment total amount
+        print
+        print('total number of resident students: ', resident_counter)
+        print('total number of non resident students: ', non_resident_counter)
+        print
+        print('total tuition amount: ', end='')
+        print('$', format(total_tuition_amount, ',.2f'), sep='')
+
+    except IOError:
+        print('an error occured trying to open or read enroll.txt')
+
+# execute the main function
+main()
 
