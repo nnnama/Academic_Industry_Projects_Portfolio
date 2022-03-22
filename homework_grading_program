@@ -1,0 +1,86 @@
+# Abstract:     This program processes a group of students.
+#               Each student may have a different amount of homework.
+#               After each student's homework scores have
+#               been entered, the program displays their average,
+#               highest, and lowest homework scores.
+#=====================================================================
+
+def main():
+    # create a variable to control the loop
+    keep_going = 'y'
+
+    # create a counter for students
+    number_of_students = 0
+
+    # process each student's score results
+    while keep_going == 'y' or keep_going == 'Y':
+
+        # use a function to process each student
+        process_student()
+
+        number_of_students += 1
+
+        # are there more students?
+        keep_going = input('Are there more students? (enter y for yes): ')
+
+    # display the total number of students
+    print()
+    print('There were', number_of_students, 'students in the class.')
+
+# process each student's homework scores
+def process_student():
+    # get the student's name
+    print()
+    name = input("What is the student's name? ")
+
+    # input the first homework score
+    print('Enter', name + "'s score for the first homework: ", end = ''),
+    first_homework_score = float(input())
+    
+    # validate the homework score is > 0
+    while first_homework_score <= 0:
+        print("ERROR: the homework score must be > 0.")
+        first_homework_score = float(input("Please enter a correct homework score: "))
+
+    # initialize total, lowest, and highest homework score to first homework score
+    total_scores = first_homework_score
+    lowest_homework_score = first_homework_score
+    highest_homework_score = first_homework_score
+    
+    # get the number of homework scores for this student
+    print('How many homework scores did', name, 'get? ', end = '')
+    number_of_homework_scores = int(input())
+
+    for number in range(2, number_of_homework_scores + 1):
+        # get the homework scores
+        print('Enter', name + "'s score for homework #" + str(number) + ': ', end = ''), 
+        homework_score = float(input())
+
+        # validate the homework score is > 0
+        while homework_score <= 0:
+            print("ERROR: the homework score must be > 0.")
+            homework_score = float(input("Please enter a correct homework score: "))
+
+        # accumulate the scores
+        total_scores += homework_score
+
+        # check for highest homework score
+        if homework_score > highest_homework_score:
+            highest_homework_score = homework_score
+
+        # check for lowest homework score
+        elif homework_score < lowest_homework_score:
+            lowest_homework_score = homework_score
+
+    # compute average homework score
+    average_homework_score = float(total_scores) / number_of_homework_scores
+
+    # display the average, highest, and lowest homework scores
+    print()
+    print(name + "'s average homework score was: \t", format(average_homework_score, "6.2f"))
+    print(name + "'s highest homework score was: \t", format(highest_homework_score, "6.2f"))
+    print(name + "'s lowest homework score was: \t", format(lowest_homework_score, "6.2f"))
+    print()
+
+# call the main function
+main()
